@@ -8,14 +8,14 @@ export class PushStep extends StepI {
 
   public async execute(): Promise<boolean> {
     const toDirectory = this.parameters[0];
-    const fromDirectory = globals.cwd;
+    const fromDirectory = globals.lcwd;
 
     console.log(`Uploading files to ${toDirectory}`);
 
     await globals.connection.sendCommand({command: `mkdir -p "${toDirectory}"`});
     await globals.connection.uploadDirectory(fromDirectory, toDirectory, {tick(localFile, remoteFile, error) {
       console.log(`\t${localFile} -> ${remoteFile}`)
-    }});
+    }, concurrency: 10});
 
     return true;
   }

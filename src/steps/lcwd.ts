@@ -8,7 +8,7 @@ export class LocalCwdStep extends StepI {
 
   public async execute(): Promise<boolean> {
     const toDirectory = this.parameters[0];
-    globals.cwd = toDirectory;
+    globals.lcwd = toDirectory;
 
     console.log(`Set local working directory to '${toDirectory}'`);
 
