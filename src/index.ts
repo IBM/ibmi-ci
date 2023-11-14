@@ -48,17 +48,22 @@ async function main() {
 async function executeSteps(steps: StepI[]) {
 	for (let i = 0; i < steps.length; i++) {
 		const step = steps[i];
+
+		console.log(``);
+		console.log(`==========================================`);
+		console.log(`Executing step ${i+1}: ${step.id}`);
+		console.log(`==========================================`);
+		console.log(``);
+
 		if (step.validateParameters()) {
 			try {
 				const result = await step.execute();
 
 				if (!result) {
-					console.log();
 					console.log(`Failed to execute step: ${step.id}`);
 					process.exit(1);
 				}
 			} catch (e) {
-				console.log();
 				console.log(`Failed to execute step: ${step.id}`);
 				console.log(e.message);
 				process.exit(1);
