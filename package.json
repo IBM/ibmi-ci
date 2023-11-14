@@ -1,6 +1,6 @@
 {
-  "name": "@ibm/ibmicli",
-  "version": "0.5.2",
+  "name": "@ibm/ibmi-ci",
+  "version": "0.1.0",
   "description": "IBM i CLI tool",
   "bin": {
     "ici": "./dist/index.js"

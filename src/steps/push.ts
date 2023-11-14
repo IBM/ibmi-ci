@@ -5,7 +5,7 @@ import * as path from "path";
 
 export class PushStep extends StepI {
   public id = `push`;
-  public description = `Pushes the current directory to a chosen directory on the IBM i`;
+  public description = `Pushes the current working directory to a chosen directory on the IBM i`;
   public requiredParams: string[] = [`remoteRelativeDirectory`];
 
   public async execute(): Promise<boolean> {

@@ -6,7 +6,7 @@ import { StepI } from "./step";
 
 export class PullStep extends StepI {
   public id = `push`;
-  public description = `Pushes the current directory to a chosen directory on the IBM i`;
+  public description = `Pulls a directory from IBM i to the local current working directory`;
   public requiredParams: string[] = [`remoteRelativeDirectory`];
 
   public async execute(): Promise<boolean> {
