@@ -5,7 +5,7 @@ import { getValidRemotePath, globals } from "../globals";
 import { StepI } from "./step";
 
 export class PullStep extends StepI {
-  public id = `push`;
+  public id = `pull`;
   public description = `Pulls a directory from IBM i to the local current working directory`;
   public requiredParams: string[] = [`remoteRelativeDirectory`];
 
