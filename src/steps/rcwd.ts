@@ -1,4 +1,4 @@
-import { globals } from "../globals";
+import { getValidRemotePath, globals } from "../globals";
 import { StepI } from "./step";
 
 export class RemoteCwdStep extends StepI {
@@ -7,7 +7,7 @@ export class RemoteCwdStep extends StepI {
   public requiredParams = ['remoteDirectory'];
 
   public async execute(): Promise<boolean> {
-    const toDirectory = this.parameters[0];
+    const toDirectory = getValidRemotePath(this.parameters[0]);
 
     const cmdResult = await globals.connection.sendCommand({command: `cd "${toDirectory}"`});
 

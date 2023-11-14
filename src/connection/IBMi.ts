@@ -249,6 +249,6 @@ export class IBMi {
   }
 
   async downloadDirectory(localDirectory: string, remoteDirectory: string, options?: node_ssh.SSHGetPutDirectoryOptions) {
-    await this.client.getDirectory(remoteDirectory, remoteDirectory, options);
+    await this.client.getDirectory(localDirectory, remoteDirectory, options);
   }
 }

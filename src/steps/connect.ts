@@ -49,6 +49,14 @@ export class ConnectStep extends StepI {
     }
 
     console.log(`Connected to system.`);
+
+    const pwdResult = await globals.connection.sendCommand({command: `pwd`, directory: `.`});
+    if (pwdResult.code !== 0) {
+      throw new Error(`Failed to get current working directory: ${pwdResult.stderr}`);
+    }
+
+    globals.rcwd = pwdResult.stdout.trim();
+    console.log(`Remote working directory is '${globals.rcwd}'`);
     
     return connectResult.success;
   }

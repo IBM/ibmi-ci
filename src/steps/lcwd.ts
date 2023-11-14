@@ -1,6 +1,8 @@
 import { globals } from "../globals";
 import { StepI } from "./step";
 
+import * as path from "path";
+
 export class LocalCwdStep extends StepI {
   public id = `lcwd`;
   public description = `Sets the current working directory on the local system`;
@@ -8,7 +10,7 @@ export class LocalCwdStep extends StepI {
 
   public async execute(): Promise<boolean> {
     const toDirectory = this.parameters[0];
-    globals.lcwd = toDirectory;
+    globals.lcwd = toDirectory.startsWith(`.`) ? path.join(globals.lcwd, toDirectory) : toDirectory;
 
     console.log(`Set local working directory to '${toDirectory}'`);
 

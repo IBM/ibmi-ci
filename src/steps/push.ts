@@ -1,13 +1,15 @@
-import { globals } from "../globals";
+import { getValidRemotePath, globals } from "../globals";
 import { StepI } from "./step";
+
+import * as path from "path";
 
 export class PushStep extends StepI {
   public id = `push`;
   public description = `Pushes the current directory to a chosen directory on the IBM i`;
-  public requiredParams: string[] = [`remoteDirectory`];
+  public requiredParams: string[] = [`remoteRelativeDirectory`];
 
   public async execute(): Promise<boolean> {
-    const toDirectory = this.parameters[0];
+    const toDirectory = getValidRemotePath(this.parameters[0]);
     const fromDirectory = globals.lcwd;
 
     console.log(`Uploading files to ${toDirectory}`);
