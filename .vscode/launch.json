@@ -1,0 +1,21 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+		{
+			"name": "Debug ibmi-cli",
+			"type": "node",
+			"request": "launch",
+			"program": "${workspaceFolder:ibmicli}/dist/index.js",
+			"sourceMaps": true,
+			"args": ["--cwd", "${workspaceFolder:birdtalk}", "--push", "./builds/icibirdtalk"],
+			"preLaunchTask": {
+				"type": "npm",
+				"script": "webpack:dev"
+			},
+			"envFile": "${workspaceFolder:ibmicli}/.env"
+		},
+  ]
+}

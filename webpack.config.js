@@ -49,6 +49,9 @@ module.exports = {
   // yes, really source maps
   devtool: `source-map`,
   plugins: [
-    new webpack.BannerPlugin({banner: `#! /usr/bin/env node`, raw: true})
+    new webpack.BannerPlugin({banner: `#! /usr/bin/env node`, raw: true}),
+
+    // We do this so we don't ship the optional binaries provided by ssh2
+    new webpack.IgnorePlugin({ resourceRegExp: /(cpu-features|sshcrypto\.node)/u })
   ]
 }; 
