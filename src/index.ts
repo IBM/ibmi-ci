@@ -1,4 +1,6 @@
 import { StepTypes } from "./steps";
+import { ConnectStep } from "./steps/connect";
+import { EnvironmentStep } from "./steps/env";
 import { StepI } from "./steps/step";
 
 main();
@@ -11,8 +13,8 @@ async function main() {
 	}
 
 	let steps: StepI[] = [
-		StepTypes.connect,
-		StepTypes.env
+		new ConnectStep(),
+		new EnvironmentStep(),
 	];
 
 	for (let i = 0; i < parms.length; i++) {
@@ -25,7 +27,7 @@ async function main() {
 				process.exit(1);
 			}
 
-			steps.push(step);
+			steps.push(new step());
 
 		} else {
 			const step = steps[steps.length - 1];
@@ -46,18 +48,27 @@ async function main() {
 async function executeSteps(steps: StepI[]) {
 	for (let i = 0; i < steps.length; i++) {
 		const step = steps[i];
-		try {
-			const result = await step.execute();
+		if (step.validateParameters()) {
+			try {
+				const result = await step.execute();
 
-			if (!result) {
+				if (!result) {
+					console.log();
+					console.log(`Failed to execute step: ${step.id}`);
+					process.exit(1);
+				}
+			} catch (e) {
 				console.log();
-				console.log(`Failed to execute step: ${step.name}`);
+				console.log(`Failed to execute step: ${step.id}`);
+				console.log(e.message);
 				process.exit(1);
 			}
-		} catch (e) {
+
+		} else {
+			// TODO: might be better to do this before executing any steps??
 			console.log();
-			console.log(`Failed to execute step: ${step.name}`);
-			console.log(e.message);
+			console.log(`Invalid parameters for step: ${step.id}`);
+			console.log(`Required parameters: ${step.requiredParams.join(`, `)}`);
 			process.exit(1);
 		}
 	}
@@ -75,13 +86,18 @@ function printHelpAndQuit() {
 	console.log(`\tIBMI_PASSWORD, IBMI_PRIVATE_KEY`);
 	console.log();
 
+	const uniqueSteps = Object.keys(StepTypes)
+		.filter(key => ![`connect`, `env`].includes(key))
+		.map(key => new StepTypes[key]());
+
 	// `connect` and `env` are special steps that are always run first.
-	const parameters = Object.keys(StepTypes).filter(key => ![`connect`, `env`].includes(key));
 
 	console.log(`Available parameters:`);
-	for (let i = 0; i < parameters.length; i++) {
-		const step = StepTypes[parameters[i]];
-		console.log(`\t--${step.name}\t\t${step.description}`);
+	for (let i = 0; i < uniqueSteps.length; i++) {
+		const step = uniqueSteps[i];
+
+		console.log(`\t--${step.id} ${step.requiredParams.map(p => `<${p}>`).join(` `)}`);
+		console.log(`\t\t${step.description}`);
 	}
 
 	console.log();

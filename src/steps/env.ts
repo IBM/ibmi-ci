@@ -2,6 +2,10 @@ import { globals } from "../globals";
 import { StepI } from "./step";
 
 export class EnvironmentStep extends StepI {
+  public id = `env`;
+  public description = `Sets the environment variables for the connected IBM i based on the host`;
+  public requiredParams: string[] = [];
+
   public async execute(): Promise<boolean> {
     const ignoredEnvironmentVariables = [
       `IBMI_HOST`, `IBMI_SSH_POST`, `IBMI_USER`, `IBMI_PASSWORD`, `IBMI_PRIVATE_KEY`,
