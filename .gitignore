@@ -1,7 +1,3 @@
 dist
 node_modules
 .DS_Store
-
-!from_qsys
-!include_fix
-!company_system
