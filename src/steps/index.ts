@@ -6,6 +6,8 @@ import { StepI } from "./step";
 import { CommandStep } from "./cmd";
 import { RemoteCwdStep } from "./rcwd";
 import { PullStep } from "./pull";
+import { GetStep } from "./get";
+import { ClStep } from "./cl";
 
 export const StepTypes: {[id: string]: typeof StepI} = {
   'connect': ConnectStep,
@@ -14,5 +16,7 @@ export const StepTypes: {[id: string]: typeof StepI} = {
   'rcwd': RemoteCwdStep,
   'push': PushStep,
   'pull': PullStep,
-  'cmd': CommandStep
+  'get': GetStep,
+  'cmd': CommandStep,
+  'cl': ClStep
 }

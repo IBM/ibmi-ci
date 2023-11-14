@@ -8,5 +8,9 @@ export const globals = {
 }
 
 export function getValidRemotePath(inString: string) {
-  return inString.startsWith(`.`) ? path.posix.join(globals.rcwd, inString) : inString
+  return inString.startsWith(`.`) ? path.posix.join(globals.rcwd, inString) : inString;
+}
+
+export function getValidLocalPath(inString: string) {
+  return inString.startsWith(`.`) ? path.join(globals.lcwd, inString) : inString;
 }

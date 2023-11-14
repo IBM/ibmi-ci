@@ -1,0 +1,23 @@
+import { globals } from "../globals";
+import { StepI } from "./step";
+
+export class ClStep extends StepI {
+  public id = `cl`;
+  public description = `Execute a CL command on the remote system`;
+  public requiredParams: string[] = [`clCommand`];
+
+  public async execute(): Promise<boolean> {
+    const command = this.parameters[0];
+    const fromDirectory = globals.rcwd;
+
+    console.log(`${fromDirectory} > ${command}`);
+
+    const cmdResult = await globals.connection.remoteCommand(command, fromDirectory);
+
+    console.log(cmdResult.stderr);
+    console.log(``)
+    console.log(cmdResult.stdout);
+
+    return cmdResult.code === 0;
+  }
+}
