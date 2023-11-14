@@ -10,6 +10,8 @@ export class LocalCwdStep extends StepI {
     const toDirectory = this.parameters[0];
     globals.cwd = toDirectory;
 
+    console.log(`Set local working directory to '${toDirectory}'`);
+
     return true;
   }
 

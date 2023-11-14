@@ -7,17 +7,16 @@ export class PushStep extends StepI {
   public requiredParams: string[] = [`remoteDirectory`];
 
   public async execute(): Promise<boolean> {
-    if (this.parameters.length === 1) {
-      const toDirectory = this.parameters[0];
-      const fromDirectory = globals.cwd;
+    const toDirectory = this.parameters[0];
+    const fromDirectory = globals.cwd;
 
-      await globals.connection.sendCommand({command: `mkdir -p "${toDirectory}"`});
-      await globals.connection.uploadDirectory(fromDirectory, toDirectory);
+    console.log(`Uploading files to ${toDirectory}`);
 
-    } else {
-      throw new Error(`Invalid number of parameters for push step.`);
-    }
+    await globals.connection.sendCommand({command: `mkdir -p "${toDirectory}"`});
+    await globals.connection.uploadDirectory(fromDirectory, toDirectory, {tick(localFile, remoteFile, error) {
+      console.log(`\t${localFile} -> ${remoteFile}`)
+    }});
 
-    return false;
+    return true;
   }
 }

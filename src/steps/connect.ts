@@ -47,6 +47,8 @@ export class ConnectStep extends StepI {
     if (!connectResult.success) {
       throw new Error(`Failed to connect to IBMi: ${connectResult.error}`);
     }
+
+    console.log(`Connected to system.`);
     
     return connectResult.success;
   }
