@@ -1,0 +1,31 @@
+{
+  "name": "@ibm/ibmicli",
+  "version": "0.5.2",
+  "description": "IBM i CLI tool",
+  "bin": {
+    "ibmi": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/src/index.d.ts",
+  "scripts": {
+    "test": "vitest",
+    "webpack:dev": "webpack --mode none --config ./webpack.config.js",
+    "webpack": "webpack --mode production --config ./webpack.config.js",
+    "local": "npm run webpack:dev && npm i -g",
+    "deploy": "npm run webpack && npm i && npm publish --access public"
+  },
+  "keywords": [
+    "ibmi"
+  ],
+  "publishConfig": {
+    "@ibm:registry": "https://npm.pkg.github.com"
+  },
+  "author": "IBM",
+  "license": "Apache 2",
+  "devDependencies": {
+    "ts-loader": "^9.4.4",
+    "typescript": "^4.8.4",
+    "webpack": "^5.24.3",
+    "webpack-cli": "^4.5.0"
+  }
+}
