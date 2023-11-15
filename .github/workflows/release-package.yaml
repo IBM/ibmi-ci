@@ -10,9 +10,6 @@ jobs:
     permissions:
       packages: write
       contents: read
-    defaults:
-      run:
-        working-directory: ./cli
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
