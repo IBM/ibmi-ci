@@ -27,16 +27,22 @@ This command will run 3 steps:
 2. Upload the local working directory to the remote working directory (`.`)
 3. Run a shell command
 
-### Default steps:
+### Default steps
 
 By default, ibmi-ci will always:
 
 1. Connect to the remote IBM i via SSH. Connection configuration is based on environment variables. Use `ici` to see more info.
 2. Set the environment variables on the remote IBM i to those of the host runner (with some exceptions like `SHELL`, `HOME`, etc)
 
-## Development:
+## Development
 
 After cloning the repo, there are two options:
 
 1. `npm run local` to install `ici`
 2. Open in VS Code and debug
+
+## Todo ✅
+
+* [ ] **Connection details** through parameters instead of environment variables so one pipeline can work with multiple systems
+* [ ] **Ignore errors** for certain steps. Sometimes we don't care if `mkdir` or `CRTLIB` failed.
+* [ ] **Daemon mode** so `ici` can be run multiple times but use the same connection
