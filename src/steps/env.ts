@@ -23,6 +23,6 @@ export class EnvironmentStep extends StepI {
 
     console.log(`Environment variables have been set.`);
 
-    return result.code !== 0;
+    return result.code === 0;
   }
 }
