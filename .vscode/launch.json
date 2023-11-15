@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
 		{
-			"name": "Debug ibmi-cli",
+			"name": "Debug ibmi-ci",
 			"type": "node",
 			"request": "launch",
 			"program": "${workspaceFolder:ibmicli}/dist/index.js",
