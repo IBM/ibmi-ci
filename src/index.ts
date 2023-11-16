@@ -17,19 +17,45 @@ async function main() {
 		new EnvironmentStep(),
 	];
 
+	steps.push(...buildStepsFromParms(parms));
+
+	if (steps.length > 2) {
+		const invalidSteps = getInvalidSteps(steps);
+		if (invalidSteps.length > 0) {
+			console.log(`Invalid steps found: ${invalidSteps.length}`);
+			console.log(``);
+
+			invalidSteps.forEach(step => {
+				console.log(`\t> ${step.id} step`);
+				console.log(`\t\tRequired parameters: ${step.requiredParams.join(`, `)}`);
+				console.log(`\t\tPassed: ${step.parameters.map(p => `\`${p}\``).join(`, `)}`);
+				console.log(``);
+			});
+			process.exit(1);
+
+		} else {
+			console.log(`All steps are valid.`);
+		}
+
+		executeSteps(steps);
+	}
+}
+
+function buildStepsFromParms(parameters: string[]): StepI[] {
+	let steps: StepI[] = [];
 	let ignoreNext = false;
 
-	for (let i = 0; i < parms.length; i++) {
-		if (parms[i].startsWith(`--`)) {
-			switch (parms[i]) {
+	for (let i = 0; i < parameters.length; i++) {
+		if (parameters[i].startsWith(`--`)) {
+			switch (parameters[i]) {
 				case `--ignore`:
 					ignoreNext = true;
 					break;
 
 				default:
-					const stepName = parms[i].substring(2);
+					const stepName = parameters[i].substring(2);
 					const stepType = StepTypes[stepName];
-		
+
 					if (!stepType) {
 						console.log(`Unknown step: ${stepName}`);
 						process.exit(1);
@@ -41,7 +67,7 @@ async function main() {
 						newStep.ignoreErrors(true);
 						ignoreNext = false;
 					}
-		
+
 					steps.push(newStep);
 					break;
 			}
@@ -49,17 +75,29 @@ async function main() {
 		} else {
 			const step = steps[steps.length - 1];
 			if (step) {
-				step.addParameter(parms[i]);
+				step.addParameter(parameters[i]);
 			} else {
-				console.log(`Unknown parameter: ${parms[i]}`);
+				console.log(`Unknown parameter: ${parameters[i]}`);
 				process.exit(1);
 			}
 		}
 	}
 
-	if (steps.length > 2) {
-		executeSteps(steps);
+	return steps;
+}
+
+function getInvalidSteps(steps: StepI[]): StepI[] {
+	let invalidSteps: StepI[] = [];
+
+	for (let i = 0; i < steps.length; i++) {
+		const step = steps[i];
+
+		if (!step.validateParameters()) {
+			invalidSteps.push(step);
+		}
 	}
+
+	return invalidSteps;
 }
 
 async function executeSteps(steps: StepI[]) {
@@ -69,7 +107,7 @@ async function executeSteps(steps: StepI[]) {
 
 		console.log(``);
 		console.log(`==========================================`);
-		console.log(`Executing step ${i+1}: ${step.id}`);
+		console.log(`Executing step ${i + 1}: ${step.id}`);
 		console.log(`==========================================`);
 		console.log(``);
 
@@ -97,10 +135,8 @@ async function executeSteps(steps: StepI[]) {
 			}
 
 		} else {
-			// TODO: might be better to do this before executing any steps??
-			console.log();
+			console.log(`Runtime error, which is odd because the validation should have caught it!`);
 			console.log(`Invalid parameters for step: ${step.id}`);
-			console.log(`Required parameters: ${step.requiredParams.join(`, `)}`);
 			process.exit(1);
 		}
 	}

@@ -25,4 +25,8 @@ export class CommandStep extends StepI {
 
     return cmdResult.code === 0;
   }
+
+  public validateParameters(): boolean {
+    return this.parameters.length === this.requiredParams.length;
+  }
 }
