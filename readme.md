@@ -34,6 +34,18 @@ By default, ibmi-ci will always:
 1. Connect to the remote IBM i via SSH. Connection configuration is based on environment variables. Use `ici` to see more info.
 2. Set the environment variables on the remote IBM i to those of the host runner (with some exceptions like `SHELL`, `HOME`, etc)
 
+### Ignoring errors
+
+You can use a special ignore flag to suppress errors on certain steps: `--ignore`. This means if the following step errors, execution will continue nonetheless.
+
+```sh
+ici \
+  --rcwd "./builds/myproject" \
+  --push "." \
+  --ignore --cl "CRTLIB $LIB"
+  --cmd "/QOpenSys/pkgs/bin/gmake BIN_LIB=MYLIB"
+```
+
 ## Development
 
 After cloning the repo, there are two options:

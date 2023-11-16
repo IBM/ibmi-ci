@@ -17,17 +17,34 @@ async function main() {
 		new EnvironmentStep(),
 	];
 
+	let ignoreNext = false;
+
 	for (let i = 0; i < parms.length; i++) {
 		if (parms[i].startsWith(`--`)) {
-			const stepName = parms[i].substring(2);
-			const step = StepTypes[stepName];
+			switch (parms[i]) {
+				case `--ignore`:
+					ignoreNext = true;
+					break;
 
-			if (!step) {
-				console.log(`Unknown step: ${stepName}`);
-				process.exit(1);
+				default:
+					const stepName = parms[i].substring(2);
+					const stepType = StepTypes[stepName];
+		
+					if (!stepType) {
+						console.log(`Unknown step: ${stepName}`);
+						process.exit(1);
+					}
+
+					const newStep = (new stepType());
+
+					if (ignoreNext) {
+						newStep.ignoreErrors(true);
+						ignoreNext = false;
+					}
+		
+					steps.push(newStep);
+					break;
 			}
-
-			steps.push(new step());
 
 		} else {
 			const step = steps[steps.length - 1];
@@ -48,6 +65,7 @@ async function main() {
 async function executeSteps(steps: StepI[]) {
 	for (let i = 0; i < steps.length; i++) {
 		const step = steps[i];
+		let shouldExit = false;
 
 		console.log(``);
 		console.log(`==========================================`);
@@ -61,12 +79,21 @@ async function executeSteps(steps: StepI[]) {
 
 				if (!result) {
 					console.log(`Failed to execute step: ${step.id}`);
-					process.exit(1);
+					shouldExit = true;
 				}
 			} catch (e) {
 				console.log(`Failed to execute step: ${step.id}`);
 				console.log(e.message);
-				process.exit(1);
+				shouldExit = true;
+			}
+
+			if (shouldExit) {
+				// Step errors can be ignored with the `--ignore` flag
+				if (step.ignoreStepError()) {
+					console.log(`Ignoring error for this step.`);
+				} else {
+					process.exit(1);
+				}
 			}
 
 		} else {

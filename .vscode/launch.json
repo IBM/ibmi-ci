@@ -10,7 +10,16 @@
 			"request": "launch",
 			"program": "${workspaceFolder:ibmicli}/dist/index.js",
 			"sourceMaps": true,
-			"args": ["--lcwd", "${workspaceFolder:birdtalk}", "--push", "./builds/icibirdtalk", "--rcwd", "./builds/icibirdtalk", "--cmd", "ls", "--lcwd", "./artifacts", "--pull", "./db"],
+			"args": [
+				"--lcwd", "${workspaceFolder:ibmicli}/src", 
+				"--cmd", "mkdir -p './builds/icisrc'", 
+				"--ignore", "--cmd", "woejhraljdsfn",
+				"--rcwd", "./builds/icisrc", 
+				"--push", ".", 
+				"--cmd", "ls", 
+				"--lcwd", "../downloaded", 
+				"--pull", "."
+			],
 			"preLaunchTask": {
 				"type": "npm",
 				"script": "webpack:dev"

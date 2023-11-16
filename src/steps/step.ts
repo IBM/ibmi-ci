@@ -4,7 +4,8 @@ export class StepI {
   public description = `Base Step Description`;
   public requiredParams: string[] = [];
 
-  parameters: string[] = [];
+  public canError = false;
+  public parameters: string[] = [];
 
   constructor() {}
 
@@ -16,5 +17,13 @@ export class StepI {
 
   validateParameters(): boolean {
     return this.parameters.length >= this.requiredParams.length;
+  }
+
+  ignoreErrors(value: boolean) {
+    this.canError = value;
+  }
+
+  ignoreStepError(): boolean {
+    return this.canError;
   }
 }
