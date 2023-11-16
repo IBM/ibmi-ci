@@ -16,12 +16,14 @@ export class CommandStep extends StepI {
       command,
       directory: fromDirectory,
       onStdout: (chunk) => {
-        console.log(chunk.toString());
+        process.stdout.write(chunk.toString());
       },
       onStderr: (chunk) => {
-        console.log(chunk.toString());
+        process.stdout.write(chunk.toString());
       }
     });
+
+    console.log(``);
 
     return cmdResult.code === 0;
   }
