@@ -56,5 +56,5 @@ After cloning the repo, there are two options:
 ## Todo ✅
 
 * [ ] **Connection details** through parameters instead of environment variables so one pipeline can work with multiple systems
-* [ ] **Ignore errors** for certain steps. Sometimes we don't care if `mkdir` or `CRTLIB` failed.
+* [x] **Ignore errors** for certain steps. Sometimes we don't care if `mkdir` or `CRTLIB` failed.
 * [ ] **Daemon mode** so `ici` can be run multiple times but use the same connection
