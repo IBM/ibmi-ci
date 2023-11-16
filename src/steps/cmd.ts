@@ -2,9 +2,9 @@ import { globals } from "../globals";
 import { StepI } from "./step";
 
 export class CommandStep extends StepI {
-  public id = `cmd`;
-  public description = `Execute a command on the remote system`;
-  public requiredParams: string[] = [`shellCommand`];
+  public readonly id = `cmd`;
+  public readonly description = `Execute a command on the remote system`;
+  public readonly requiredParams: string[] = [`shellCommand`];
 
   public async execute(): Promise<boolean> {
     const command = this.parameters[0];

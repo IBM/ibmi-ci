@@ -2,9 +2,9 @@ import { globals } from "../globals";
 import { StepI } from "./step";
 
 export class ClStep extends StepI {
-  public id = `cl`;
-  public description = `Execute a CL command on the remote system`;
-  public requiredParams: string[] = [`clCommand`];
+  public readonly id = `cl`;
+  public readonly description = `Execute a CL command on the remote system`;
+  public readonly requiredParams: string[] = [`clCommand`];
 
   public async execute(): Promise<boolean> {
     const command = this.parameters[0];

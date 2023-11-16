@@ -5,9 +5,9 @@ import { getValidLocalPath, getValidRemotePath, globals } from "../globals";
 import { StepI } from "./step";
 
 export class GetStep extends StepI {
-  public id = `get`;
-  public description = `Gets a specific file from IBM i`;
-  public requiredParams: string[] = [`remoteRelativeDirectory`, `localRelativePath`];
+  public readonly id = `get`;
+  public readonly description = `Gets a specific file from IBM i`;
+  public readonly requiredParams: string[] = [`remoteRelativeDirectory`, `localRelativePath`];
 
   public async execute(): Promise<boolean> {
     const remoteFile =  getValidRemotePath(this.parameters[0]);

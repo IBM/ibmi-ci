@@ -2,9 +2,9 @@ import { getValidRemotePath, globals } from "../globals";
 import { StepI } from "./step";
 
 export class RemoteCwdStep extends StepI {
-  public id = `rcwd`;
-  public description = `Sets the current working directory on the remote system`;
-  public requiredParams = ['remoteDirectory'];
+  public readonly id = `rcwd`;
+  public readonly description = `Sets the current working directory on the remote system`;
+  public readonly requiredParams = ['remoteDirectory'];
 
   public async execute(): Promise<boolean> {
     const toDirectory = getValidRemotePath(this.parameters[0]);

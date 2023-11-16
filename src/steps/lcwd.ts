@@ -4,9 +4,9 @@ import { StepI } from "./step";
 import * as path from "path";
 
 export class LocalCwdStep extends StepI {
-  public id = `lcwd`;
-  public description = `Sets the current working directory on the local system`;
-  public requiredParams = ['localDirectory'];
+  public readonly id = `lcwd`;
+  public readonly description = `Sets the current working directory on the local system`;
+  public readonly requiredParams = ['localDirectory'];
 
   public async execute(): Promise<boolean> {    
     globals.lcwd = getValidLocalPath(this.parameters[0]);

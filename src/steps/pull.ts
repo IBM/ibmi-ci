@@ -5,9 +5,9 @@ import { getValidRemotePath, globals } from "../globals";
 import { StepI } from "./step";
 
 export class PullStep extends StepI {
-  public id = `pull`;
-  public description = `Pulls a directory from IBM i to the local current working directory`;
-  public requiredParams: string[] = [`remoteRelativeDirectory`];
+  public readonly id = `pull`;
+  public readonly description = `Pulls a directory from IBM i to the local current working directory`;
+  public readonly requiredParams: string[] = [`remoteRelativeDirectory`];
 
   public async execute(): Promise<boolean> {
     const fromDirectory =  getValidRemotePath(this.parameters[0]);

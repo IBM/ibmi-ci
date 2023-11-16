@@ -2,9 +2,9 @@ import { globals } from "../globals";
 import { StepI } from "./step";
 
 export class EnvironmentStep extends StepI {
-  public id = `env`;
-  public description = `Sets the environment variables for the connected IBM i based on the host`;
-  public requiredParams: string[] = [];
+  public readonly id = `env`;
+  public readonly description = `Sets the environment variables for the connected IBM i based on the host`;
+  public readonly requiredParams: string[] = [];
 
   public async execute(): Promise<boolean> {
     const ignoredEnvironmentVariables = [
@@ -13,15 +13,13 @@ export class EnvironmentStep extends StepI {
     ];
 
     const environmentVariables = Object.keys(process.env).filter(key => !ignoredEnvironmentVariables.includes(key));
-    const commandString = environmentVariables.map(key => `${key}="${process.env[key]}"`).join(` `);
+    const commandString = environmentVariables.map(key => `${key}='${process.env[key]}'`).join(` `);
 
-    console.log(`Setting environment variabless: ${environmentVariables.join(`, `)}`);
+    console.log(`Setting environment variables: ${environmentVariables.join(`, `)}`);
 
     const result = await globals.connection.sendCommand({
       command: commandString
     });
-
-    console.log(`Environment variables have been set.`);
 
     return result.code === 0;
   }

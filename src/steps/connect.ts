@@ -5,9 +5,9 @@ import { StepI } from "./step";
 import * as node_ssh from "node-ssh";
 
 export class ConnectStep extends StepI {
-  public id = `connect`;
-  public description = `Connect to the IBM i`;
-  public requiredParams: string[] = [];
+  public readonly id = `connect`;
+  public readonly description = `Connect to the IBM i`;
+  public readonly requiredParams: string[] = [];
 
   public async execute(): Promise<boolean> {
     const requiredEnvironmentVariables = [
