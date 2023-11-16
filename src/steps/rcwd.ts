@@ -9,6 +9,8 @@ export class RemoteCwdStep extends StepI {
   public async execute(): Promise<boolean> {
     const toDirectory = getValidRemotePath(this.parameters[0]);
 
+    // TODO: Check for optional `-create` flag to automatically create it too.
+
     const cmdResult = await globals.connection.sendCommand({command: `cd "${toDirectory}"`});
 
     if (cmdResult.code !== 0) {
