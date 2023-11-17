@@ -17,6 +17,7 @@
 				"--rcwd", "./builds/icisrc", 
 				"--push", ".", 
 				"--cmd", "ls", 
+				"--cl", "WRKACTJOB",
 				"--lcwd", "../downloaded", 
 				"--pull", "."
 			],
