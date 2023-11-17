@@ -178,21 +178,6 @@ export class IBMi {
     return this.client && this.client.isConnected();
   }
 
-  /**
-   * @param {string} command 
-   * @param {string} [directory] If not passed, will use current home directory
-   */
-  remoteCommand(command: string, directory?: string) {
-    //execCommand does not crash..
-    // escape $ and "
-    command = command.replace(/\$/g, `\\$`).replace(/"/g, `\\"`);
-
-    return this.sendCommand({
-      command,
-      directory
-    });
-  }
-
   async sendQsh(options: CommandData) {
     options.stdin = options.command;
 

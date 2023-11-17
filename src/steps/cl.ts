@@ -15,7 +15,10 @@ export class ClStep extends StepI {
 
     const withSystem = `system "${command}"`;
 
-    const cmdResult = await globals.connection.remoteCommand(withSystem, fromDirectory);
+    const cmdResult = await globals.connection.sendCommand({
+      command: withSystem,
+      directory: fromDirectory,
+    });
 
     console.log(cmdResult.stderr);
     console.log(``)

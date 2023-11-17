@@ -18,6 +18,7 @@
 				"--push", ".", 
 				"--cmd", "ls", 
 				"--cl", "WRKACTJOB",
+				"--ignore", "--cl", "DLTLIB LIB(TEMP)",
 				"--lcwd", "../downloaded", 
 				"--pull", "."
 			],
