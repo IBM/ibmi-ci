@@ -3,13 +3,13 @@ import { StepI } from "./step";
 
 export class RemoteCwdStep extends StepI {
   public readonly id = `rcwd`;
-  public readonly description = `Sets the current working directory on the remote system`;
+  public readonly description = `Sets the current working directory on the remote system. It will be created if it does not exist.`;
   public readonly requiredParams = ['remoteDirectory'];
 
   public async execute(): Promise<boolean> {
     const toDirectory = getValidRemotePath(this.parameters[0]);
 
-    // TODO: Check for optional `-create` flag to automatically create it too.
+    await globals.connection.sendCommand({command: `mkdir -p "${toDirectory}"`});
 
     const cmdResult = await globals.connection.sendCommand({command: `cd "${toDirectory}"`});
 
