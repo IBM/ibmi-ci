@@ -50,6 +50,7 @@ export class ConnectStep extends StepI {
 
     console.log(`Connected to system.`);
 
+    // Let's also grab the users initial working directory
     const pwdResult = await globals.connection.sendCommand({command: `pwd`, directory: `.`});
     if (pwdResult.code !== 0) {
       throw new Error(`Failed to get current working directory: ${pwdResult.stderr}`);
@@ -57,6 +58,18 @@ export class ConnectStep extends StepI {
 
     globals.rcwd = pwdResult.stdout.trim();
     console.log(`Remote working directory is '${globals.rcwd}'`);
+
+    // To make debugging easier. Let's also display their `PATH` environment variable
+    const pathResult = await globals.connection.sendCommand({command: `echo $PATH`, directory: `.`});
+    if (pathResult.code === 0 && pathResult.stdout) {
+      const paths = pathResult.stdout.trim().split(`:`).map(p => `${p}:`);
+      console.log(`Remote PATH environment variable is:`);
+      for (const path of paths) {
+        console.log(`\t${path}`);
+      }
+    } else {
+      console.log(`Failed to get remote PATH environment variable. ${pathResult.stderr}`);
+    }
     
     return connectResult.success;
   }
