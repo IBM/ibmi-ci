@@ -17,9 +17,6 @@
   "keywords": [
     "ibmi"
   ],
-  "publishConfig": {
-    "@ibm:registry": "https://npm.pkg.github.com"
-  },
   "author": "IBM",
   "license": "Apache 2",
   "devDependencies": {
