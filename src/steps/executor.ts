@@ -16,7 +16,7 @@ export interface ExecutorState {
 
 export class Executor {
   private state: ExecutorState = {
-    connection: new IBMi(),
+    connection: undefined,
     lcwd: process.cwd(),
     rcwd: `.`
   }
@@ -27,6 +27,10 @@ export class Executor {
 
   setConnection(connection: IBMi) {
     this.state.connection = connection;
+  }
+
+  getState(): ExecutorState {
+    return this.state;
   }
 
   addSteps(...steps: StepI[]) {
