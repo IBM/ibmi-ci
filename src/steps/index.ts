@@ -11,6 +11,7 @@ import { ClStep } from "./actions/cl";
 import { Executor } from "./executor";
 
 import { parse } from 'yaml'
+import { GitHubAssetStep } from "./actions/ghasset";
 
 export const StepTypes: {[id: string]: typeof StepI} = {
   'connect': ConnectStep,
@@ -21,7 +22,8 @@ export const StepTypes: {[id: string]: typeof StepI} = {
   'pull': PullStep,
   'get': GetStep,
   'cmd': CommandStep,
-  'cl': ClStep
+  'cl': ClStep,
+	'ghasset': GitHubAssetStep
 }
 
 export function buildStepsFromArray(executor: Executor, parameters: string[]): boolean {

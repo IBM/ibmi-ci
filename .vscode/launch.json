@@ -15,6 +15,7 @@
 				"--cmd", "mkdir -p './builds/icisrc'", 
 				"--ignore", "--cmd", "woejhraljdsfn",
 				"--rcwd", "./builds/icisrc", 
+				"--ghasset", "ThePrez/CodeForIBMiServer", "v1.4.5", ".jar",
 				"--push", ".", 
 				"--cmd", "ls", 
 				"--cl", "WRKACTJOB",
