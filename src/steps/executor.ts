@@ -25,10 +25,7 @@ export class Executor {
     rcwd: `.`
   }
 
-	private steps: StepI[] = [
-		new ConnectStep(),
-		new EnvironmentStep(),
-	];
+	private steps: StepI[] = [];
 
   constructor() {}
 

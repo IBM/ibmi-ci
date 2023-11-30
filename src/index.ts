@@ -1,23 +1,46 @@
-import { StepTypes, buildStepsFromArray } from "./steps";
-import { ConnectStep } from "./steps/actions/connect";
-import { EnvironmentStep } from "./steps/actions/env";
+import { ExecutorDocument, StepTypes, buildStepsFromArray, buildStepsFromJson, buildStepsFromYaml } from "./steps";
 import { Executor } from "./steps/executor";
-import { StepI } from "./steps/step";
+import * as path from "path";
+import * as fs from "fs";
 
 main();
 
 async function main() {
 	const parms = process.argv.slice(2);
 
-	if (parms.length === 0) {
-		printHelpAndQuit();
-	}
-
+	let validSteps = true;
 	let executor = new Executor();
 
-	const success = buildStepsFromArray(executor, parms);
+	executor.addSteps(new StepTypes.connect(), new StepTypes.env());
 
-	if (!success) {
+	if (parms.length === 0) {
+		printHelpAndQuit();
+
+	} else if (parms[0] === `--file`) {
+		const relativePath = parms[1];
+		const detail = path.parse(relativePath);
+
+		const content = fs.readFileSync(relativePath, {encoding: `utf8`});
+
+		switch (detail.ext) {
+			case `.json`:
+				validSteps = buildStepsFromJson(executor, JSON.parse(content));
+				break;
+
+			case `.yaml`:
+			case `.yml`:
+				validSteps = buildStepsFromYaml(executor, content);
+				break;
+
+			default:
+				console.log(`Unknown file type: ${detail.ext}`);
+				process.exit(1);
+		}
+	} else {
+		validSteps = buildStepsFromArray(executor, parms);
+	}
+
+	if (!validSteps) {
 		process.exit(1);
 	}
 
@@ -40,7 +63,6 @@ async function main() {
 		}
 
 		const result = await executor.executeSteps();
-		console.log(result);
 		executor.dispose();
 	}
 }

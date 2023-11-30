@@ -10,6 +10,8 @@ import { GetStep } from "./actions/get";
 import { ClStep } from "./actions/cl";
 import { Executor } from "./executor";
 
+import { parse } from 'yaml'
+
 export const StepTypes: {[id: string]: typeof StepI} = {
   'connect': ConnectStep,
   'env': EnvironmentStep,
@@ -61,6 +63,52 @@ export function buildStepsFromArray(executor: Executor, parameters: string[]): b
 				return false;
 			}
 		}
+	}
+
+	return true;
+}
+
+export interface ExecutorDocument {
+	steps: {
+		type: string;
+		parameters?: string[];
+		ignore?: boolean;
+	}[]
+}
+
+export function buildStepsFromYaml(executor: Executor, yaml: string) {
+	const parsed: ExecutorDocument = parse(yaml)
+
+	return buildStepsFromJson(executor, parsed);
+}
+
+export function buildStepsFromJson(executor: Executor, document: ExecutorDocument): boolean {
+	if (!document.steps) {
+		console.log(`No steps property found.`);
+		return false;
+	}
+
+	for (const step of document.steps) {
+		const stepType = StepTypes[step.type];
+
+		if (!stepType) {
+			console.log(`Unknown step: ${step.type}`);
+			return false;
+		}
+
+		const newStep = new stepType();
+
+		if (step.ignore) {
+			newStep.ignoreErrors(true);
+		}
+
+		if (step.parameters) {
+			for (const param of step.parameters) {
+				newStep.addParameter(param);
+			}
+		}
+
+		executor.addSteps(newStep);
 	}
 
 	return true;

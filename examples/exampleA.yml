@@ -1,0 +1,23 @@
+steps:
+  - type: lcwd
+    parameters: [src]
+  - type: cmd
+    parameters: [mkdir -p './builds/icisrc']
+  - type: cmd
+    parameters: [dsdfksldfj]
+    ignore: true
+  - type: rcwd
+    parameters: [./builds/icisrc]
+  - type: push
+    parameters: [.]
+  - type: cmd
+    parameters: [ls]
+  - type: cl
+    parameters: [WRKACTJOB]
+  - type: cl
+    parameters: [DLTLIB LIB(TEMP)]
+    ignore: true
+  - type: lcwd
+    parameters: [../downloaded]
+  - type: pull
+    parameters: [.]

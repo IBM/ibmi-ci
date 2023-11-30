@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
 		{
-			"name": "Debug ibmi-ci",
+			"name": "Debug ibmi-ci CLI",
 			"type": "node",
 			"request": "launch",
 			"program": "${workspaceFolder:ibmicli}/dist/index.js",
@@ -21,6 +21,21 @@
 				"--ignore", "--cl", "DLTLIB LIB(TEMP)",
 				"--lcwd", "../downloaded", 
 				"--pull", "."
+			],
+			"preLaunchTask": {
+				"type": "npm",
+				"script": "webpack:dev"
+			},
+			"envFile": "${workspaceFolder:ibmicli}/.env"
+		},
+		{
+			"name": "Debug ibmi-ci yaml",
+			"type": "node",
+			"request": "launch",
+			"program": "${workspaceFolder:ibmicli}/dist/index.js",
+			"sourceMaps": true,
+			"args": [
+				"--file", "examples/exampleA.yml",
 			],
 			"preLaunchTask": {
 				"type": "npm",
