@@ -11,7 +11,7 @@ export class StepI {
 
   public canError = false;
   public parameters: string[] = [];
-  public state: ExecutorState;
+  public state: ExecutorState|undefined;
   public logger?: LoggerFunction;
 
   constructor() {}
@@ -44,19 +44,23 @@ export class StepI {
     return this.canError;
   }
 
+  getState(): ExecutorState {
+    return this.state!;
+  }
+
   setState(newState: ExecutorState) {
     this.state = newState;
   }
 
   getConnection(): IBMi {
-    return this.state.connection!;
+    return this.state!.connection!;
   }
 
   getValidRemotePath(inString: string) {
-    return inString.startsWith(`.`) ? path.posix.join(this.state.rcwd, inString) : inString;
+    return inString.startsWith(`.`) ? path.posix.join(this.state!.rcwd, inString) : inString;
   }
 
   getValidLocalPath(inString: string) {
-    return inString.startsWith(`.`) ? path.join(this.state.lcwd, inString) : inString;
+    return inString.startsWith(`.`) ? path.join(this.state!.lcwd, inString) : inString;
   }
 }

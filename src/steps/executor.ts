@@ -1,6 +1,4 @@
 import { IBMi } from "../connection/IBMi";
-import { ConnectStep } from "./actions/connect";
-import { EnvironmentStep } from "./actions/env";
 import { StepI } from "./step";
 
 export type LoggerFunction = (value: string, append?: boolean) => void;
@@ -61,7 +59,7 @@ export class Executor {
     let allOutput = ``;
 
     // Custom log function so we can collect all the output too
-    const log: LoggerFunction = (value: string, append: boolean) => {
+    const log: LoggerFunction = (value: string, append?: boolean) => {
       events.log(value, append);
       allOutput += (value + (append ? `` : `\n`));
     }
@@ -87,7 +85,7 @@ export class Executor {
             log(`Failed to execute step: ${step.id}`);
             shouldExit = true;
           }
-        } catch (e) {
+        } catch (e: any) {
           log(`Failed to execute step: ${step.id}`);
           log(e.message);
           shouldExit = true;

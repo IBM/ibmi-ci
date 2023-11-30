@@ -17,7 +17,7 @@ export class GitHubAssetStep extends StepI {
     const tag = this.parameters[1];
     const findName = this.parameters[2];
 
-    const toDirectory = this.state.lcwd;
+    const toDirectory = this.getState().lcwd;
 
     this.log(`Downloading files from ${owner}/${repo}@${tag} to '${toDirectory}'`);
 

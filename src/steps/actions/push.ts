@@ -10,7 +10,7 @@ export class PushStep extends StepI {
 
   public async execute(): Promise<boolean> {
     const toDirectory = this.getValidRemotePath(this.parameters[0]);
-    const fromDirectory = this.state.lcwd;
+    const fromDirectory = this.getState().lcwd;
 
     this.log(`Uploading files to ${toDirectory}`);
 

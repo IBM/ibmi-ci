@@ -10,7 +10,7 @@ export class PullStep extends StepI {
 
   public async execute(): Promise<boolean> {
     const fromDirectory =  this.getValidRemotePath(this.parameters[0]);
-    const toDirectory = this.state.lcwd;
+    const toDirectory = this.getState().lcwd;
 
     this.log(`Downloading files from '${fromDirectory}' to '${toDirectory}'`);
 

@@ -16,7 +16,7 @@ export class RemoteCwdStep extends StepI {
       throw new Error(`Could not change directory to '${toDirectory}'. ${cmdResult.stderr}`);
     }
 
-    this.state.rcwd = toDirectory;
+    this.getState().rcwd = toDirectory;
     this.log(`Set remote working directory to '${toDirectory}'`);
     
     return true;

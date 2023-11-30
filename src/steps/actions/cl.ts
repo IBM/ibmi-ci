@@ -7,7 +7,7 @@ export class ClStep extends StepI {
 
   public async execute(): Promise<boolean> {
     const command = this.parameters[0];
-    const fromDirectory = this.state.rcwd;
+    const fromDirectory = this.getState().rcwd;
 
     this.log(`> ${fromDirectory}`);
     this.log(`> ${command}`);

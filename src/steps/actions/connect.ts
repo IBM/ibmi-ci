@@ -39,7 +39,7 @@ export class ConnectStep extends StepI {
 
     connectionDetail[authType] = authToken;
 
-    this.state.connection = new IBMi();
+    this.getState().connection = new IBMi();
 
     const connectResult = await this.getConnection().connect(connectionDetail);
 
@@ -55,8 +55,8 @@ export class ConnectStep extends StepI {
       throw new Error(`Failed to get current working directory: ${pwdResult.stderr}`);
     }
 
-    this.state.rcwd = pwdResult.stdout.trim();
-    this.log(`Remote working directory is '${this.state.rcwd}'`);
+    this.getState().rcwd = pwdResult.stdout.trim();
+    this.log(`Remote working directory is '${this.getState().rcwd}'`);
 
     // To make debugging easier. Let's also display their `PATH` environment variable
     const pathResult = await this.getConnection().sendCommand({command: `echo $PATH`, directory: `.`});

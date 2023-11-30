@@ -8,9 +8,9 @@ export class LocalCwdStep extends StepI {
   public readonly requiredParams = ['localDirectory'];
 
   public async execute(): Promise<boolean> {    
-    this.state.lcwd = this.getValidLocalPath(this.parameters[0]);
+    this.getState().lcwd = this.getValidLocalPath(this.parameters[0]);
 
-    this.log(`Set local working directory to '${this.state.lcwd}'`);
+    this.log(`Set local working directory to '${this.getState().lcwd}'`);
 
     return true;
   }
