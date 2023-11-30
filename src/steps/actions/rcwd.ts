@@ -1,5 +1,5 @@
-import { getValidRemotePath, globals } from "../globals";
-import { StepI } from "./step";
+import { getValidRemotePath, globals } from "../../globals";
+import { StepI } from "../step";
 
 export class RemoteCwdStep extends StepI {
   public readonly id = `rcwd`;

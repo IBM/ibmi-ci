@@ -1,6 +1,6 @@
-import { IBMi } from "../connection/IBMi";
-import { globals } from "../globals";
-import { StepI } from "./step";
+import { IBMi } from "../../connection/IBMi";
+import { globals } from "../../globals";
+import { StepI } from "../step";
 
 import * as node_ssh from "node-ssh";
 

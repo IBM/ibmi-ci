@@ -1,8 +1,8 @@
 import * as fs from "fs";
 import * as path from "path";
 
-import { getValidLocalPath, getValidRemotePath, globals } from "../globals";
-import { StepI } from "./step";
+import { getValidLocalPath, getValidRemotePath, globals } from "../../globals";
+import { StepI } from "../step";
 
 export class GetStep extends StepI {
   public readonly id = `get`;

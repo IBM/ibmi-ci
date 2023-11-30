@@ -1,5 +1,5 @@
-import { getValidLocalPath, globals } from "../globals";
-import { StepI } from "./step";
+import { getValidLocalPath, globals } from "../../globals";
+import { StepI } from "../step";
 
 import * as path from "path";
 

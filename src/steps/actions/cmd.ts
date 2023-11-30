@@ -1,5 +1,5 @@
-import { globals } from "../globals";
-import { StepI } from "./step";
+import { globals } from "../../globals";
+import { StepI } from "../step";
 
 export class CommandStep extends StepI {
   public readonly id = `cmd`;
