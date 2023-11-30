@@ -47,7 +47,7 @@ export class ConnectStep extends StepI {
       throw new Error(`Failed to connect to IBMi: ${connectResult.error}`);
     }
 
-    console.log(`Connected to system.`);
+    this.log(`Connected to system.`);
 
     // Let's also grab the users initial working directory
     const pwdResult = await this.getConnection().sendCommand({command: `pwd`, directory: `.`});
@@ -56,18 +56,18 @@ export class ConnectStep extends StepI {
     }
 
     this.state.rcwd = pwdResult.stdout.trim();
-    console.log(`Remote working directory is '${this.state.rcwd}'`);
+    this.log(`Remote working directory is '${this.state.rcwd}'`);
 
     // To make debugging easier. Let's also display their `PATH` environment variable
     const pathResult = await this.getConnection().sendCommand({command: `echo $PATH`, directory: `.`});
     if (pathResult.code === 0 && pathResult.stdout) {
       const paths = pathResult.stdout.trim().split(`:`).map(p => `${p}:`);
-      console.log(`Remote PATH environment variable is:`);
+      this.log(`Remote PATH environment variable is:`);
       for (const path of paths) {
-        console.log(`\t${path}`);
+        this.log(`\t${path}`);
       }
     } else {
-      console.log(`Failed to get remote PATH environment variable. ${pathResult.stderr}`);
+      this.log(`Failed to get remote PATH environment variable. ${pathResult.stderr}`);
     }
     
     return connectResult.success;

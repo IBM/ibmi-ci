@@ -1,7 +1,8 @@
 import * as path from "path";
 
 import { IBMi } from "../connection/IBMi";
-import { ExecutorState } from "./executor";
+import { ExecutorState, LoggerFunction } from "./executor";
+
 
 export class StepI {
   public id = `base`;
@@ -11,8 +12,19 @@ export class StepI {
   public canError = false;
   public parameters: string[] = [];
   public state: ExecutorState;
+  public logger?: LoggerFunction;
 
-  constructor() { }
+  constructor() {}
+
+  log(value: string, append: boolean = false) {
+    if (this.logger) {
+      this.logger(value, append);
+    }
+  }
+
+  setLogger(newLogger: LoggerFunction) {
+    this.logger = newLogger;
+  }
 
   addParameter(value: string) {
     this.parameters.push(value);

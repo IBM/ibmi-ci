@@ -10,7 +10,7 @@ export class LocalCwdStep extends StepI {
   public async execute(): Promise<boolean> {    
     this.state.lcwd = this.getValidLocalPath(this.parameters[0]);
 
-    console.log(`Set local working directory to '${this.state.lcwd}'`);
+    this.log(`Set local working directory to '${this.state.lcwd}'`);
 
     return true;
   }

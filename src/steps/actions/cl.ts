@@ -9,8 +9,8 @@ export class ClStep extends StepI {
     const command = this.parameters[0];
     const fromDirectory = this.state.rcwd;
 
-    console.log(`> ${fromDirectory}`);
-    console.log(`> ${command}`);
+    this.log(`> ${fromDirectory}`);
+    this.log(`> ${command}`);
 
     const withSystem = `system "${command}"`;
 
@@ -19,9 +19,9 @@ export class ClStep extends StepI {
       directory: fromDirectory,
     });
 
-    console.log(cmdResult.stderr);
-    console.log(``)
-    console.log(cmdResult.stdout);
+    this.log(cmdResult.stderr);
+    this.log(``)
+    this.log(cmdResult.stdout);
 
     return cmdResult.code === 0;
   }

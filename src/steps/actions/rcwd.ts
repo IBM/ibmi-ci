@@ -17,7 +17,7 @@ export class RemoteCwdStep extends StepI {
     }
 
     this.state.rcwd = toDirectory;
-    console.log(`Set remote working directory to '${toDirectory}'`);
+    this.log(`Set remote working directory to '${toDirectory}'`);
     
     return true;
   }

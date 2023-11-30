@@ -12,7 +12,7 @@ export class GetStep extends StepI {
     const remoteFile =  this.getValidRemotePath(this.parameters[0]);
     const localFile = this.getValidLocalPath(this.parameters[1]);
 
-    console.log(`Downloading file '${remoteFile}' to '${localFile}'`);
+    this.log(`Downloading file '${remoteFile}' to '${localFile}'`);
 
     const toDirectory = path.dirname(localFile);
 

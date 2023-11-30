@@ -14,7 +14,7 @@ export class EnvironmentStep extends StepI {
     const environmentVariables = Object.keys(process.env).filter(key => !ignoredEnvironmentVariables.includes(key));
     const commandString = environmentVariables.map(key => `${key}='${process.env[key]}'`).join(` `);
 
-    console.log(`Setting environment variables: ${environmentVariables.join(`, `)}`);
+    this.log(`Setting environment variables: ${environmentVariables.join(`, `)}`);
 
     const result = await this.getConnection().sendCommand({
       command: commandString

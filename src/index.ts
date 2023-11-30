@@ -1,5 +1,5 @@
 import { ExecutorDocument, StepTypes, buildStepsFromArray, buildStepsFromJson, buildStepsFromYaml } from "./steps";
-import { Executor } from "./steps/executor";
+import { Executor, LoggerFunction } from "./steps/executor";
 import * as path from "path";
 import * as fs from "fs";
 
@@ -62,7 +62,15 @@ async function main() {
 			console.log(`All steps are valid.`);
 		}
 
-		const result = await executor.executeSteps();
+		const logger: LoggerFunction = (value, append) => {
+			if (append) {
+				process.stdout.write(value);
+			} else {
+				console.log(value);
+			}
+		}
+
+		const result = await executor.executeSteps({log: logger});
 		executor.dispose();
 	}
 }
@@ -77,13 +85,17 @@ function printHelpAndQuit() {
 	console.log(`\tIBMI_PASSWORD, IBMI_PRIVATE_KEY`);
 	console.log();
 
+	// `connect` and `env` are special steps that are always run first.
 	const uniqueSteps = Object.keys(StepTypes)
 		.filter(key => ![`connect`, `env`].includes(key))
 		.map(key => new StepTypes[key]());
 
-	// `connect` and `env` are special steps that are always run first.
-
 	console.log(`Available parameters:`);
+	console.log(`\t--file <relativePath>`);
+	console.log(`\t\tLoads steps from a JSON or YAML file. This cannot`);
+	console.log(`\t\tuse this in conjunction with other paramaters.`);
+	console.log();
+
 	for (let i = 0; i < uniqueSteps.length; i++) {
 		const step = uniqueSteps[i];
 

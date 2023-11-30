@@ -9,20 +9,20 @@ export class CommandStep extends StepI {
     const command = this.parameters[0];
     const fromDirectory = this.state.rcwd;
 
-    console.log(`${fromDirectory} $ ${command}`);
+    this.log(`${fromDirectory} $ ${command}`);
 
     const cmdResult = await this.getConnection().sendCommand({
       command,
       directory: fromDirectory,
       onStdout: (chunk) => {
-        process.stdout.write(chunk.toString());
+        this.log(chunk.toString(), true);
       },
       onStderr: (chunk) => {
-        process.stdout.write(chunk.toString());
+        this.log(chunk.toString(), true);
       }
     });
 
-    console.log(``);
+    this.log(``);
 
     return cmdResult.code === 0;
   }

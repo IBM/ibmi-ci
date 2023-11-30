@@ -3,9 +3,7 @@ import { ConnectStep } from "./actions/connect";
 import { EnvironmentStep } from "./actions/env";
 import { StepI } from "./step";
 
-interface ExecutorEvents {
-  log?: (value: string) => void;
-}
+export type LoggerFunction = (value: string, append?: boolean) => void;
 
 interface ExecutorResult {
   code: number;
@@ -59,16 +57,13 @@ export class Executor {
     this.state.connection?.end();
   }
 
-  async executeSteps(events: ExecutorEvents = {}): Promise<ExecutorResult> {
+  async executeSteps(events: {log: LoggerFunction}): Promise<ExecutorResult> {
     let allOutput = ``;
-    const log = (value: string) => {
-      if (events.log) {
-        events.log(value);
-      } else {
-        console.log(value);
-      }
 
-      allOutput += (value + `\n`);
+    // Custom log function so we can collect all the output too
+    const log: LoggerFunction = (value: string, append: boolean) => {
+      events.log(value, append);
+      allOutput += (value + (append ? `` : `\n`));
     }
 
     for (let i = 0; i < this.steps.length; i++) {
@@ -84,6 +79,8 @@ export class Executor {
       if (step.validateParameters()) {
         try {
           step.setState(this.state);
+          step.setLogger(log);
+
           const result = await step.execute();
   
           if (!result) {

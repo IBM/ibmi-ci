@@ -102,7 +102,7 @@ export class IBMi {
           modal: true,
           detail: `Your home directory (${actualHomeDir}) does not exist, so Code for IBM i may not function correctly. Would you like to create this directory now?`,
         }, `Yes`)) {
-          console.log(`creating home directory ${actualHomeDir}`);
+          console.log(`creating home directory ${actuajlHomeDir}`);
           let mkHomeCmd = `mkdir -p ${actualHomeDir} && chown ${connectionObject.username.toLowerCase()} ${actualHomeDir} && chmod 0755 ${actualHomeDir}`;
           let mkHomeResult = await this.sendCommand({ command: mkHomeCmd, directory: `.` });
           if (0 === mkHomeResult.code) {

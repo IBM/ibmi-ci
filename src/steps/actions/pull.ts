@@ -12,15 +12,18 @@ export class PullStep extends StepI {
     const fromDirectory =  this.getValidRemotePath(this.parameters[0]);
     const toDirectory = this.state.lcwd;
 
-    console.log(`Downloading files from '${fromDirectory}' to '${toDirectory}'`);
+    this.log(`Downloading files from '${fromDirectory}' to '${toDirectory}'`);
 
     try {
       fs.mkdirSync(toDirectory, {recursive: true});
     } catch (e) {};
 
-    await this.getConnection().downloadDirectory(toDirectory, fromDirectory, {tick(localFile, remoteFile, error) {
-      console.log(`\t${remoteFile} -> ${localFile}`)
+    await this.getConnection().downloadDirectory(toDirectory, fromDirectory, {tick: (localFile, remoteFile, error) => {
+      this.log(`\t${remoteFile} -> ${localFile}`)
     }, concurrency: 10});
+
+    this.log(``);
+    this.log(`Downloaded files from '${fromDirectory}' to '${toDirectory}'`);
 
     return true;
   }

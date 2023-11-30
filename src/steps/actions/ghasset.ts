@@ -19,7 +19,7 @@ export class GitHubAssetStep extends StepI {
 
     const toDirectory = this.state.lcwd;
 
-    console.log(`Downloading files from ${owner}/${repo}@${tag} to '${toDirectory}'`);
+    this.log(`Downloading files from ${owner}/${repo}@${tag} to '${toDirectory}'`);
 
     const result = await octokit.request(`GET /repos/{owner}/{repo}/releases/tags/${tag}`, {
       owner,
@@ -40,14 +40,14 @@ export class GitHubAssetStep extends StepI {
       } catch (e) {};
 
       await downloadFile(url, localFile);
-      console.log(`Downloaded asset: ${owner}/${repo}@${tag}:${newAsset.name} -> ${localFile}`)
+      this.log(`Downloaded asset: ${owner}/${repo}@${tag}:${newAsset.name} -> ${localFile}`)
 
       return true;
       
     } else {
-      console.log(`No asset found with name '${findName}'. Available assets:`);
+      this.log(`No asset found with name '${findName}'. Available assets:`);
       for (const asset of result.data.assets) {
-        console.log(`\t${asset.name}`);
+        this.log(`\t${asset.name}`);
       }
 
       return false;

@@ -12,11 +12,11 @@ export class PushStep extends StepI {
     const toDirectory = this.getValidRemotePath(this.parameters[0]);
     const fromDirectory = this.state.lcwd;
 
-    console.log(`Uploading files to ${toDirectory}`);
+    this.log(`Uploading files to ${toDirectory}`);
 
     await this.getConnection().sendCommand({command: `mkdir -p "${toDirectory}"`});
-    await this.getConnection().uploadDirectory(fromDirectory, toDirectory, {tick(localFile, remoteFile, error) {
-      console.log(`\t${localFile} -> ${remoteFile}`)
+    await this.getConnection().uploadDirectory(fromDirectory, toDirectory, {tick: (localFile, remoteFile, error) => {
+      this.log(`\t${localFile} -> ${remoteFile}`)
     }, concurrency: 10});
 
     return true;
