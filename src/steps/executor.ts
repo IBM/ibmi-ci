@@ -25,6 +25,10 @@ export class Executor {
 
   constructor() {}
 
+  setConnection(connection: IBMi) {
+    this.state.connection = connection;
+  }
+
   addSteps(...steps: StepI[]) {
     this.steps.push(...steps);
   }
@@ -55,12 +59,12 @@ export class Executor {
     this.state.connection?.end();
   }
 
-  async executeSteps(events: {log: LoggerFunction}): Promise<ExecutorResult> {
+  async executeSteps(events: {log?: LoggerFunction} = {}): Promise<ExecutorResult> {
     let allOutput = ``;
 
     // Custom log function so we can collect all the output too
     const log: LoggerFunction = (value: string, append?: boolean) => {
-      events.log(value, append);
+      if (events.log) events.log(value, append);
       allOutput += (value + (append ? `` : `\n`));
     }
 

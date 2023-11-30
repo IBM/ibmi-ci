@@ -29,7 +29,7 @@ export class GitHubAssetStep extends StepI {
       }
     });
 
-    const newAsset = result.data.assets.find(asset => asset.name.endsWith(findName));
+    const newAsset = result.data.assets.find((asset: any) => asset.name.endsWith(findName));
 
     if (newAsset) {
       const url = newAsset.browser_download_url;
@@ -60,7 +60,7 @@ export class GitHubAssetStep extends StepI {
 }
 
 
-function downloadFile(url, outputPath) {
+function downloadFile(url: string, outputPath: string) {
   return fetch(url)
       .then(x => x.arrayBuffer())
       .then(x => writeFile(outputPath, Buffer.from(x)));
