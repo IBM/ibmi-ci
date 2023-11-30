@@ -8,6 +8,7 @@ import { RemoteCwdStep } from "./actions/rcwd";
 import { PullStep } from "./actions/pull";
 import { GetStep } from "./actions/get";
 import { ClStep } from "./actions/cl";
+import { Executor } from "./executor";
 
 export const StepTypes: {[id: string]: typeof StepI} = {
   'connect': ConnectStep,
@@ -21,8 +22,7 @@ export const StepTypes: {[id: string]: typeof StepI} = {
   'cl': ClStep
 }
 
-export function buildStepsFromArray(parameters: string[]): StepI[] {
-	let steps: StepI[] = [];
+export function buildStepsFromArray(executor: Executor, parameters: string[]): boolean {
 	let ignoreNext = false;
 
 	for (let i = 0; i < parameters.length; i++) {
@@ -38,44 +38,30 @@ export function buildStepsFromArray(parameters: string[]): StepI[] {
 
 					if (!stepType) {
 						console.log(`Unknown step: ${stepName}`);
-						process.exit(1);
+						return false;
 					}
 
-					const newStep = (new stepType());
+					const newStep = new stepType();
 
 					if (ignoreNext) {
 						newStep.ignoreErrors(true);
 						ignoreNext = false;
 					}
 
-					steps.push(newStep);
+					executor.addSteps(newStep);
 					break;
 			}
 
 		} else {
-			const step = steps[steps.length - 1];
+			const step = executor.getLastStep();
 			if (step) {
 				step.addParameter(parameters[i]);
 			} else {
 				console.log(`Unknown parameter: ${parameters[i]}`);
-				process.exit(1);
+				return false;
 			}
 		}
 	}
 
-	return steps;
-}
-
-export function getInvalidSteps(steps: StepI[]): StepI[] {
-	let invalidSteps: StepI[] = [];
-
-	for (let i = 0; i < steps.length; i++) {
-		const step = steps[i];
-
-		if (!step.validateParameters()) {
-			invalidSteps.push(step);
-		}
-	}
-
-	return invalidSteps;
+	return true;
 }

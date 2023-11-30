@@ -1,3 +1,7 @@
+import * as path from "path";
+
+import { IBMi } from "../connection/IBMi";
+import { ExecutorState } from "./executor";
 
 export class StepI {
   public id = `base`;
@@ -6,14 +10,15 @@ export class StepI {
 
   public canError = false;
   public parameters: string[] = [];
+  public state: ExecutorState;
 
-  constructor() {}
+  constructor() { }
 
   addParameter(value: string) {
     this.parameters.push(value);
   }
 
-  async execute(): Promise<boolean> {return false};
+  async execute(): Promise<boolean> { return false };
 
   validateParameters(): boolean {
     return this.parameters.length >= this.requiredParams.length;
@@ -25,5 +30,21 @@ export class StepI {
 
   ignoreStepError(): boolean {
     return this.canError;
+  }
+
+  setState(newState: ExecutorState) {
+    this.state = newState;
+  }
+
+  getConnection(): IBMi {
+    return this.state.connection!;
+  }
+
+  getValidRemotePath(inString: string) {
+    return inString.startsWith(`.`) ? path.posix.join(this.state.rcwd, inString) : inString;
+  }
+
+  getValidLocalPath(inString: string) {
+    return inString.startsWith(`.`) ? path.join(this.state.lcwd, inString) : inString;
   }
 }

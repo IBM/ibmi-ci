@@ -1,4 +1,3 @@
-import { getValidRemotePath, globals } from "../../globals";
 import { StepI } from "../step";
 
 export class RemoteCwdStep extends StepI {
@@ -7,17 +6,17 @@ export class RemoteCwdStep extends StepI {
   public readonly requiredParams = ['remoteDirectory'];
 
   public async execute(): Promise<boolean> {
-    const toDirectory = getValidRemotePath(this.parameters[0]);
+    const toDirectory = this.getValidRemotePath(this.parameters[0]);
 
-    await globals.connection.sendCommand({command: `mkdir -p "${toDirectory}"`});
+    await this.getConnection().sendCommand({command: `mkdir -p "${toDirectory}"`});
 
-    const cmdResult = await globals.connection.sendCommand({command: `cd "${toDirectory}"`});
+    const cmdResult = await this.getConnection().sendCommand({command: `cd "${toDirectory}"`});
 
     if (cmdResult.code !== 0) {
       throw new Error(`Could not change directory to '${toDirectory}'. ${cmdResult.stderr}`);
     }
 
-    globals.rcwd = toDirectory;
+    this.state.rcwd = toDirectory;
     console.log(`Set remote working directory to '${toDirectory}'`);
     
     return true;

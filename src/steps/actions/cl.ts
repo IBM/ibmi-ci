@@ -1,4 +1,3 @@
-import { globals } from "../../globals";
 import { StepI } from "../step";
 
 export class ClStep extends StepI {
@@ -8,14 +7,14 @@ export class ClStep extends StepI {
 
   public async execute(): Promise<boolean> {
     const command = this.parameters[0];
-    const fromDirectory = globals.rcwd;
+    const fromDirectory = this.state.rcwd;
 
     console.log(`> ${fromDirectory}`);
     console.log(`> ${command}`);
 
     const withSystem = `system "${command}"`;
 
-    const cmdResult = await globals.connection.sendCommand({
+    const cmdResult = await this.getConnection().sendCommand({
       command: withSystem,
       directory: fromDirectory,
     });

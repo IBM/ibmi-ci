@@ -1,4 +1,3 @@
-import { globals } from "../../globals";
 import { StepI } from "../step";
 
 export class EnvironmentStep extends StepI {
@@ -17,7 +16,7 @@ export class EnvironmentStep extends StepI {
 
     console.log(`Setting environment variables: ${environmentVariables.join(`, `)}`);
 
-    const result = await globals.connection.sendCommand({
+    const result = await this.getConnection().sendCommand({
       command: commandString
     });
 

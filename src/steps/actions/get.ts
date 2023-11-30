@@ -1,7 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
 
-import { getValidLocalPath, getValidRemotePath, globals } from "../../globals";
 import { StepI } from "../step";
 
 export class GetStep extends StepI {
@@ -10,8 +9,8 @@ export class GetStep extends StepI {
   public readonly requiredParams: string[] = [`remoteRelativeDirectory`, `localRelativePath`];
 
   public async execute(): Promise<boolean> {
-    const remoteFile =  getValidRemotePath(this.parameters[0]);
-    const localFile = getValidLocalPath(this.parameters[1]);
+    const remoteFile =  this.getValidRemotePath(this.parameters[0]);
+    const localFile = this.getValidLocalPath(this.parameters[1]);
 
     console.log(`Downloading file '${remoteFile}' to '${localFile}'`);
 
@@ -21,7 +20,7 @@ export class GetStep extends StepI {
       fs.mkdirSync(toDirectory, {recursive: true});
     } catch (e) {};
 
-    await globals.connection.downloadFile(localFile, remoteFile);
+    await this.getConnection().downloadFile(localFile, remoteFile);
 
     return true;
   }

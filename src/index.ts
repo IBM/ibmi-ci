@@ -1,6 +1,7 @@
-import { StepTypes, buildStepsFromArray, getInvalidSteps } from "./steps";
+import { StepTypes, buildStepsFromArray } from "./steps";
 import { ConnectStep } from "./steps/actions/connect";
 import { EnvironmentStep } from "./steps/actions/env";
+import { Executor } from "./steps/executor";
 import { StepI } from "./steps/step";
 
 main();
@@ -12,15 +13,16 @@ async function main() {
 		printHelpAndQuit();
 	}
 
-	let steps: StepI[] = [
-		new ConnectStep(),
-		new EnvironmentStep(),
-	];
+	let executor = new Executor();
 
-	steps.push(...buildStepsFromArray(parms));
+	const success = buildStepsFromArray(executor, parms);
 
-	if (steps.length > 2) {
-		const invalidSteps = getInvalidSteps(steps);
+	if (!success) {
+		process.exit(1);
+	}
+
+	if (executor.getSteps().length > 2) {
+		const invalidSteps = executor.getInvalidSteps();
 		if (invalidSteps.length > 0) {
 			console.log(`Invalid steps found: ${invalidSteps.length}`);
 			console.log(``);
@@ -37,52 +39,10 @@ async function main() {
 			console.log(`All steps are valid.`);
 		}
 
-		executeSteps(steps);
+		const result = await executor.executeSteps();
+		console.log(result);
+		executor.dispose();
 	}
-}
-
-async function executeSteps(steps: StepI[]) {
-	for (let i = 0; i < steps.length; i++) {
-		const step = steps[i];
-		let shouldExit = false;
-
-		console.log(``);
-		console.log(`==========================================`);
-		console.log(`Executing step ${i + 1}: ${step.id}`);
-		console.log(`==========================================`);
-		console.log(``);
-
-		if (step.validateParameters()) {
-			try {
-				const result = await step.execute();
-
-				if (!result) {
-					console.log(`Failed to execute step: ${step.id}`);
-					shouldExit = true;
-				}
-			} catch (e) {
-				console.log(`Failed to execute step: ${step.id}`);
-				console.log(e.message);
-				shouldExit = true;
-			}
-
-			if (shouldExit) {
-				// Step errors can be ignored with the `--ignore` flag
-				if (step.ignoreStepError()) {
-					console.log(`Ignoring error for this step.`);
-				} else {
-					process.exit(1);
-				}
-			}
-
-		} else {
-			console.log(`Runtime error, which is odd because the validation should have caught it!`);
-			console.log(`Invalid parameters for step: ${step.id}`);
-			process.exit(1);
-		}
-	}
-
-	process.exit();
 }
 
 function printHelpAndQuit() {
