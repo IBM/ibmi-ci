@@ -4,7 +4,34 @@ ibmi-ci is a command line tool to make it easier to work with IBM i from pipelin
 
 ## Installation
 
-Read about [installing packages from GitHub](https://docs.github.com/en/packages/learn-github-packages/installing-a-package).
+[Install via npm](https://www.npmjs.com/package/@ibm/ibmi-ci):
+
+```sh
+npm i @ibm/ibmi-ci
+```
+
+<details>
+<summary>Use in a GitHub Action</summary>
+
+```yaml
+      - run: npm i -g @ibm/ibmi-ci
+      - name: Deploy to IBM i
+        run: | 
+          ici \
+            --cmd "mkdir -p './builds/ics_${GITHUB_HEAD_REF}'" \
+            --rcwd "./builds/ics_${GITHUB_HEAD_REF}" \
+            --push "." \
+            --cmd "/QOpenSys/pkgs/bin/gmake BIN_LIB=CMPSYS"
+        env:
+          IBMI_HOST: ${{ secrets.IBMI_HOST }}
+          IBMI_USER: ${{ secrets.IBMI_USER }}
+          IBMI_PASSWORD: ${{ secrets.IBMI_PASSWORD }}
+          IBMI_SSH_PORT: ${{ secrets.IBMI_SSH_PORT }}
+```
+
+</details>
+
+
 
 ## How to use
 
