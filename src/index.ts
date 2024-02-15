@@ -80,7 +80,7 @@ function printHelpAndQuit() {
 	console.log(`The CLI is used to interact with the IBM i from the command line.`);
 	console.log();
 	console.log(`It assumes these environment variables are set:`);
-	console.log(`\tIBMI_HOST, IBMI_SSH_POST, IBMI_USER`);
+	console.log(`\tIBMI_HOST, IBMI_SSH_PORT, IBMI_USER`);
 	console.log(`At least one of these environment variables is required:`);
 	console.log(`\tIBMI_PASSWORD, IBMI_PRIVATE_KEY`);
 	console.log();
