@@ -8,7 +8,8 @@ export class EnvironmentStep extends StepI {
   public async execute(): Promise<boolean> {
     const ignoredEnvironmentVariables = [
       `IBMI_HOST`, `IBMI_SSH_PORT`, `IBMI_USER`, `IBMI_PASSWORD`, `IBMI_PRIVATE_KEY`,
-      `PWD`, `USER`, `HOME`, `SHELL`, `TERM`, `EDITOR`, `LANG`, `LC_ALL`, `LC_CTYPE`, `_`, `LOGNAME`, `PATH`
+      `PWD`, `USER`, `HOME`, `SHELL`, `TERM`, `EDITOR`, `LANG`, `LC_ALL`, `LC_CTYPE`, `_`, `LOGNAME`, `PATH`,
+      `CommonProgramFiles(x86)`, `ProgramFiles(x86)`
     ];
 
     const environmentVariables = Object.keys(process.env).filter(key => !ignoredEnvironmentVariables.includes(key));
