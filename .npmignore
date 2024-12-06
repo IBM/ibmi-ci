@@ -6,3 +6,4 @@ src
 !dist/src
 node_modules
 .vscode
+.env.sample

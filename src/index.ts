@@ -72,6 +72,8 @@ async function main() {
 
 		const result = await executor.executeSteps({log: logger});
 		executor.dispose();
+		console.log(`ibmi-ci completed with exit code ${result.code}.`);
+		process.exit(result.code);
 	}
 }
 
