@@ -8,10 +8,10 @@
 			"name": "Debug ibmi-ci CLI",
 			"type": "node",
 			"request": "launch",
-			"program": "${workspaceFolder:ibmicli}/dist/index.js",
+			"program": "${workspaceFolder:ibmi-ci}/dist/index.js",
 			"sourceMaps": true,
 			"args": [
-				"--lcwd", "${workspaceFolder:ibmicli}/src", 
+				"--lcwd", "${workspaceFolder:ibmi-ci}/src", 
 				"--cmd", "mkdir -p './builds/icisrc'", 
 				"--ignore", "--cmd", "woejhraljdsfn",
 				"--rcwd", "./builds/icisrc", 
@@ -27,13 +27,13 @@
 				"type": "npm",
 				"script": "webpack:dev"
 			},
-			"envFile": "${workspaceFolder:ibmicli}/.env"
+			"envFile": "${workspaceFolder:ibmi-ci}/.env"
 		},
 		{
 			"name": "Debug ibmi-ci yaml",
 			"type": "node",
 			"request": "launch",
-			"program": "${workspaceFolder:ibmicli}/dist/index.js",
+			"program": "${workspaceFolder:ibmi-ci}/dist/index.js",
 			"sourceMaps": true,
 			"args": [
 				"--file", "examples/exampleA.yml",
@@ -42,7 +42,7 @@
 				"type": "npm",
 				"script": "webpack:dev"
 			},
-			"envFile": "${workspaceFolder:ibmicli}/.env"
+			"envFile": "${workspaceFolder:ibmi-ci}/.env"
 		},
   ]
 }
