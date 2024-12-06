@@ -12,7 +12,7 @@ export class EnvironmentStep extends StepI {
       `CommonProgramFiles(x86)`, `ProgramFiles(x86)`
     ];
 
-    const environmentVariables = Object.keys(process.env).filter(key => !ignoredEnvironmentVariables.includes(key) && !key.includes('.'));
+    const environmentVariables = Object.keys(process.env).filter(key => !ignoredEnvironmentVariables.includes(key) && !key.includes('.') && !key.includes(' '));
     const commandString = environmentVariables.map(key => `${key}='${process.env[key]}'`).join(` `);
 
     this.log(`Setting environment variables: ${environmentVariables.join(`, `)}`);
