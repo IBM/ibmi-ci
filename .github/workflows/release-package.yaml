@@ -38,6 +38,10 @@ jobs:
           IBMI_PASSWORD: ${{ secrets.IBMI_PASSWORD }}
           IBMI_SSH_PORT: ${{ secrets.IBMI_SSH_PORT }}
 
+      - name: Dry Run Publish
+        run: |
+          npm publish --dry-run
+
       - name: Publish Package
         run: |
           npm publish --access public
