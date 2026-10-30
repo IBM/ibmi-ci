@@ -13,13 +13,20 @@ export class EnvironmentStep extends StepI {
     ];
 
     const environmentVariables = Object.keys(process.env).filter(key => !ignoredEnvironmentVariables.includes(key) && !key.includes('.') && !key.includes(' '));
-    const commandString = environmentVariables.map(key => `${key}='${process.env[key]}'`).join(` `);
+    const commandString = environmentVariables.map(key => {
+      const value = (process.env[key] ?? ``).replace(/'/g, `'\\''`);
+      return `${key}='${value}'`;
+    }).join(` `);
 
     this.log(`Setting environment variables: ${environmentVariables.join(`, `)}`);
 
     const result = await this.getConnection().sendCommand({
       command: commandString
     });
+
+    if (result.code !== 0) {
+      this.log(`Failed to set environment variables. ${result.stderr}`);
+    }
 
     return result.code === 0;
   }
