@@ -25,7 +25,7 @@ export class EnvironmentStep extends StepI {
     });
 
     if (result.code !== 0) {
-      this.log(`Failed to set environment variables. ${result.stderr}`);
+      this.log(`Failed to set environment variables: ${result.stderr}`);
     }
 
     return result.code === 0;
