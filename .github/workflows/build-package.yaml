@@ -1,0 +1,40 @@
+name: Build Package
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches: ["main"]
+
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Build Package
+        run: |
+          npm ci
+          npm run webpack
+
+      - name: Test Package
+        run: |
+          node dist/index.js \
+            --file "examples/exampleA.yml"
+        env:
+          IBMI_HOST: ${{ secrets.IBMI_HOST }}
+          IBMI_USER: ${{ secrets.IBMI_USER }}
+          IBMI_PASSWORD: ${{ secrets.IBMI_PASSWORD }}
+          IBMI_SSH_PORT: ${{ secrets.IBMI_SSH_PORT }}

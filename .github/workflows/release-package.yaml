@@ -1,22 +1,43 @@
-name: Node.js Package
+name: Release Package
 
 on:
+  workflow_dispatch:
+
   release:
     types: [created]
 
+permissions:
+  id-token: write  # Required for OIDC
+  contents: read
+
 jobs:
-  publish-gpr:
+  publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 24
           registry-url: 'https://registry.npmjs.org'
 
-      - run: |
+      - name: Build Package
+        run: |
           npm ci
           npm run webpack
-          npm publish --access public
+
+      - name: Test Package
+        run: |
+          node dist/index.js \
+            --file "examples/exampleA.yml"
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          IBMI_HOST: ${{ secrets.IBMI_HOST }}
+          IBMI_USER: ${{ secrets.IBMI_USER }}
+          IBMI_PASSWORD: ${{ secrets.IBMI_PASSWORD }}
+          IBMI_SSH_PORT: ${{ secrets.IBMI_SSH_PORT }}
+
+      - name: Publish Package
+        run: |
+          npm publish --access public
