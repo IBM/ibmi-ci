@@ -5,5 +5,8 @@ test
 src
 !dist/src
 node_modules
+downloaded
+examples
 .vscode
+.github
 .env.sample
