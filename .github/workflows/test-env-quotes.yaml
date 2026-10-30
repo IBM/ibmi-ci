@@ -1,0 +1,33 @@
+name: Tests unitaires sur l'IBM i
+
+# Manual test for environment variables containing single quotes.
+# The workflow name above ends up in GITHUB_WORKFLOW, which the `env` step
+# sends to the IBM i. Before the fix, this caused the `env` step to fail with:
+#   bash: -c: line 1: unexpected EOF while looking for matching `''
+
+on:
+  workflow_dispatch:
+
+jobs:
+  env-single-quote:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - run: |
+          npm ci
+          npm run webpack
+
+      - name: Run ici with single quotes in environment variables
+        run: |
+          node dist/index.js \
+            --cmd "echo GITHUB_WORKFLOW is set"
+        env:
+          IBMI_HOST: ${{ secrets.IBMI_HOST }}
+          IBMI_USER: ${{ secrets.IBMI_USER }}
+          IBMI_PASSWORD: ${{ secrets.IBMI_PASSWORD }}
+          IBMI_SSH_PORT: ${{ secrets.IBMI_SSH_PORT }}
+          MY_QUOTED_VAR: "it's a 'quoted' value"
